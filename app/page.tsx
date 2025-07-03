@@ -2,15 +2,13 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import dynamic from 'next/dynamic';
-// import VehicleDashboard from '@/components/vehicle-dashboard';
 import { Card } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
-// import VehicleDashboard from '@/components/vehicle-dashboard';
 
-// Dynamically import the map component to avoid SSR issues
+// Dynamically import components to avoid SSR issues
 const VehicleMap = dynamic(() => import('@/components/vehicle-map'), {
-   ssr: false,
+  ssr: false,
   loading: () => (
     <div className="w-full h-full bg-gray-100 rounded-xl flex items-center justify-center">
       <div className="text-center">
@@ -22,12 +20,12 @@ const VehicleMap = dynamic(() => import('@/components/vehicle-map'), {
 });
 
 const VehicleDashboard = dynamic(() => import('@/components/vehicle-dashboard'), {
-  //  ssr: false,
+  ssr: false,
   loading: () => (
     <div className="w-full h-full bg-gray-100 rounded-xl flex items-center justify-center">
       <div className="text-center">
         <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-        <p className="text-gray-600">Loading ... .. </p>
+        <p className="text-gray-600">Loading dashboard...</p>
       </div>
     </div>
   ),
@@ -57,9 +55,15 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isTracking, setIsTracking] = useState(true);
+  const [mounted, setMounted] = useState(false);
+
+  // Ensure component is mounted before rendering
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const fetchVehicleData = useCallback(async () => {
-    if (!isTracking) return;
+    if (!isTracking || !mounted) return;
     
     setIsLoading(true);
     setError(null);
@@ -77,7 +81,7 @@ export default function Home() {
     } finally {
       setIsLoading(false);
     }
-  }, [isTracking]);
+  }, [isTracking, mounted]);
 
   const resetSimulation = async () => {
     try {
@@ -98,15 +102,28 @@ export default function Home() {
 
   // Fetch data on component mount and set up interval
   useEffect(() => {
-    fetchVehicleData();
-  }, [fetchVehicleData]);
+    if (mounted) {
+      fetchVehicleData();
+    }
+  }, [fetchVehicleData, mounted]);
 
   useEffect(() => {
-    if (!isTracking) return;
+    if (!isTracking || !mounted) return;
 
     const interval = setInterval(fetchVehicleData, 3000);
     return () => clearInterval(interval);
-  }, [fetchVehicleData, isTracking]);
+  }, [fetchVehicleData, isTracking, mounted]);
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-600">Loading application...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">

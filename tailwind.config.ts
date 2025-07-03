@@ -70,7 +70,6 @@ const config: Config = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
-        // ✅ Car pulse animation for vehicle marker
         carPulse: {
           '0%, 100%': {
             transform: 'scale(1)',
@@ -85,8 +84,21 @@ const config: Config = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        carPulse: 'carPulse 2s infinite', // ✅ custom car animation
+        carPulse: 'carPulse 2s infinite',
       },
+      // Add safelist for dynamic classes
+      safelist: [
+        'bg-green-500',
+        'bg-red-500',
+        'bg-blue-500',
+        'bg-yellow-500',
+        'bg-purple-500',
+        'border-green-500',
+        'border-red-500',
+        'border-blue-500',
+        'border-yellow-500',
+        'border-purple-500',
+      ],
     },
   },
   plugins: [require('tailwindcss-animate')],
