@@ -2,19 +2,31 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import dynamic from 'next/dynamic';
-import VehicleDashboard from '@/components/vehicle-dashboard';
+// import VehicleDashboard from '@/components/vehicle-dashboard';
 import { Card } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
 
 // Dynamically import the map component to avoid SSR issues
 const VehicleMap = dynamic(() => import('@/components/vehicle-map'), {
-  ssr: false,
+   ssr: false,
   loading: () => (
     <div className="w-full h-full bg-gray-100 rounded-xl flex items-center justify-center">
       <div className="text-center">
         <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
         <p className="text-gray-600">Loading map...</p>
+      </div>
+    </div>
+  ),
+});
+
+const VehicleDashboard = dynamic(() => import('@/components/vehicle-dashboard'), {
+   ssr: false,
+  loading: () => (
+    <div className="w-full h-full bg-gray-100 rounded-xl flex items-center justify-center">
+      <div className="text-center">
+        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+        <p className="text-gray-600">Loading ... .. </p>
       </div>
     </div>
   ),
