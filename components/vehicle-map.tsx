@@ -24,11 +24,6 @@ const Polyline = dynamic(
   { ssr: false }
 );
 
-const useMap = dynamic(
-  () => import('react-leaflet').then((mod) => mod.useMap),
-  { ssr: false }
-);
-
 interface VehiclePosition {
   latitude: number;
   longitude: number;
@@ -48,7 +43,9 @@ function MapUpdater({ position }: { position: VehiclePosition | null }) {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       import('react-leaflet').then(({ useMap }) => {
-        // This will be handled by the dynamic import
+        // Get the map instance using useMap hook
+        const mapInstance = useMap();
+        setMap(mapInstance);
       });
     }
   }, []);
