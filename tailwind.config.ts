@@ -63,28 +63,33 @@ const config: Config = {
       },
       keyframes: {
         'accordion-down': {
-          from: {
-            height: '0',
-          },
-          to: {
-            height: 'var(--radix-accordion-content-height)',
-          },
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
         },
         'accordion-up': {
-          from: {
-            height: 'var(--radix-accordion-content-height)',
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+        // ✅ Car pulse animation for vehicle marker
+        carPulse: {
+          '0%, 100%': {
+            transform: 'scale(1)',
+            boxShadow: '0 6px 20px rgba(239, 68, 68, 0.5)',
           },
-          to: {
-            height: '0',
+          '50%': {
+            transform: 'scale(1.05)',
+            boxShadow: '0 8px 25px rgba(239, 68, 68, 0.7)',
           },
         },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        carPulse: 'carPulse 2s infinite', // ✅ custom car animation
       },
     },
   },
   plugins: [require('tailwindcss-animate')],
 };
+
 export default config;

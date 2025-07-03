@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import { Card } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
+// import VehicleDashboard from '@/components/vehicle-dashboard';
 
 // Dynamically import the map component to avoid SSR issues
 const VehicleMap = dynamic(() => import('@/components/vehicle-map'), {
@@ -21,7 +22,7 @@ const VehicleMap = dynamic(() => import('@/components/vehicle-map'), {
 });
 
 const VehicleDashboard = dynamic(() => import('@/components/vehicle-dashboard'), {
-   ssr: false,
+  //  ssr: false,
   loading: () => (
     <div className="w-full h-full bg-gray-100 rounded-xl flex items-center justify-center">
       <div className="text-center">
